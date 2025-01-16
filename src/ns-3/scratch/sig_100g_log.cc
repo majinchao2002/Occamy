@@ -326,6 +326,10 @@ main (int argc, char *argv[])
         // ecn_threshold = 65 * PACKET_SIZE;
     }
 
+    std::string folderPath = "../../exp/ns-3/log_motivation_log/";
+    if (!std::filesystem::exists(folderPath)) {
+        std::filesystem::create_directories(folderPath);
+    }
     for(uint32_t i=0;i<SPINE_COUNT;i++)
     {
         spines.Get(i)->SetNodeType(1);
@@ -339,7 +343,7 @@ main (int argc, char *argv[])
         spines.Get(i)->m_switch->head_drop_internal = 20;
 
         spines.Get(i)->m_switch->port_num = 8;
-        spines.Get(i)->SetQueryLossFileFolderName("log_query_motivation_log/"+key+"-");
+        spines.Get(i)->SetQueryLossFileFolderName(folderPath+key+"-");
 
         for(uint32_t j = 0; j < 4; j++)
         {
@@ -368,7 +372,7 @@ main (int argc, char *argv[])
         leaves.Get(i)->m_switch->head_drop_internal = 20;
 
         leaves.Get(i)->m_switch->port_num = 24;
-        leaves.Get(i)->SetQueryLossFileFolderName("log_query_motivation_log/"+key+"-");
+        leaves.Get(i)->SetQueryLossFileFolderName(folderPath+key+"-");
 
         for(uint32_t j = 0; j < 4; j++)
         {
@@ -548,7 +552,7 @@ main (int argc, char *argv[])
 
     Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
 
-    Simulator::Schedule(Seconds(1.0), GetMsg, &sw, 10000);
+    //Simulator::Schedule(Seconds(1.0), GetMsg, &sw, 10000);
 
     Simulator::Stop (Seconds (END_TIME+10));
     Simulator::Run ();
